@@ -1,0 +1,263 @@
+@import "./variables.scss";
+
+/* buttons */
+
+.btn {
+    border-radius: 50px;
+    padding: 10px 20px;
+    text-transform: none;
+    &.large {
+      min-width: 200px;
+    }
+    &.medium {
+      min-width: 142px;
+    }
+    &.small {
+      min-width: 142px;
+      padding: 5px 20px;
+    }
+    &.no-shadow {
+      box-shadow: none;
+    }
+}
+
+.btn.disabled,
+.btn[disabled] {
+    opacity: .3;
+}
+
+.btn:focus {
+    outline: none !important;
+}
+
+.btn-link {
+    color: rgba(107, 73, 206, 1);
+}
+
+.btn-link:hover {
+    color: rgba(107, 73, 206, .7);
+}
+
+.btn-solid {
+    background-color: rgba(107, 73, 206, 1);
+    color: #fff;
+    box-shadow: $btnShadow;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid rgba(107, 73, 206, .7);
+    color: #ffffff;
+    cursor: pointer;
+
+  &.filled {
+    color: rgba(107, 73, 206, 1);
+  }
+}
+
+.btn-outline:hover,
+.btn-outline:focus,
+.btn-outline.active {
+    background-color: rgba(107, 73, 206, .1);
+    color: $lightSecondary;
+}
+
+.btn-outline.active {
+  color: #ffffff;
+}
+
+.btn-outline-secondary {
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    background-color: transparent;
+    text-transform: none;
+    font-weight: bold;
+}
+
+.btn-outline-primary {
+    border: 1px solid $borderColor;
+    color: $heavyTextColor;
+    font-weight: bold;
+    &:hover,
+    &:focus {
+        color: $heavyTextColor;
+    }
+}
+
+.btn-secondary {
+    color: $primaryCallout;
+    background-color: #ffffff;
+    text-transform: none;
+    font-weight: bold;
+    &:hover,
+    &:focus {
+        color: $primaryCallout;
+    }
+}
+
+
+
+/* map buttons */
+
+.control-wrapper {
+    position: absolute;
+    margin-top: 10px;
+    margin-right: 10px;
+    $zoomBtnRadius: 50px;
+    .custom-center,
+    .zoom-control {
+        color: #ffffff;
+        background-color: $primaryCallout;
+        box-shadow: $btnShadow;
+        cursor: pointer;
+        text-align: center;
+    }
+    .custom-center {
+        text-align: center;
+        padding: 13px;
+        border-radius: 61px;
+        margin-bottom: 13px;
+        ;
+        img {
+            height: 20px;
+            width: 20px;
+        }
+    }
+    .custom-zoom {
+        .zoom-control {
+            padding: 15px 10px;
+            font-size: 20px;
+            z-index: 1;
+            border: 0 none;
+            display: inherit;
+            width: 100%;
+            &:focus {
+                outline: 0 none;
+            }
+            &:active {
+                color: $lightSecondary;
+            }
+            &:first-child {
+                border-bottom: 1px solid rgba(37, 30, 60, 0.4);
+            }
+        }
+        .zoom-in {
+            border-top-right-radius: $zoomBtnRadius;
+            border-top-left-radius: $zoomBtnRadius;
+            img {
+                width: 15px;
+                height: 15px;
+            }
+        }
+        .zoom-out {
+            border-bottom-right-radius: $zoomBtnRadius;
+            border-bottom-left-radius: $zoomBtnRadius;
+            img {
+                width: 15px;
+                height: 3px;
+            }
+        }
+    }
+}
+
+
+/* end map buttons */
+
+.chevron-down {
+    transform: rotate(90deg);
+}
+
+.fake-button {
+    padding: 5px 10px;
+    border: 1px solid $borderColor;
+    background-color: #ffffff;
+    position: relative;
+    border-radius: 0;
+    min-width: 315px;
+    text-align: left;
+    display: block;
+    &:active,
+    &:hover,
+    &:focus {
+        outline: 0;
+    }
+    i {
+        position: absolute;
+        right: 12px;
+        top: 8px;
+        color: #222222;
+        font-size: 20px;
+        transform: rotate(90deg);
+        font-weight: bold;
+        &.up {
+            transform: rotate(270deg);
+        }
+    }
+
+
+  &.date {
+    width: 159px;
+    float: left;
+    min-width: inherit;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    i {
+      font-size: 18px;
+      top: 11px;
+    }
+
+    .form-group.date{
+      margin: 0;
+      border: 0 none;
+      width: 80%;
+
+      .input-group-addon {
+        display: none;
+      }
+
+      input[type="text"] {
+        border: 0 none;
+        padding: 0;
+        font-size: 14px;
+        height: 38px;
+        margin: 4px auto;
+      }
+    }
+  }
+}
+
+.station-button {
+    border-radius: 20px;
+    border: 1px solid $primaryCallout;
+    color: $primaryCallout;
+    position: absolute;
+    right: 10px;
+    top: -10px;
+    z-index: 3;
+    padding: 8px 16px;
+    font-weight: bold;
+    background-color: #ffffff;
+    &:active,
+    &:hover,
+    &:focus {
+        outline: 0;
+    }
+    span {
+        font-size: 15px;
+    }
+}
+
+.small-button {
+  padding: 5px 14px;
+  border-radius: 38px;
+  font-style: normal;
+  font-size: 13px;
+  max-width: 115px;
+  height: 27px;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 17px;
+  background: 0 none;
+  border:1px solid #ffffff;
+}
