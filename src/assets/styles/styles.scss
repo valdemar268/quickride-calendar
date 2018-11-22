@@ -2,12 +2,19 @@
 // @import "../../node_modules/bootswatch/flatly/bootstrap.css";
 // @import "../../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css";
 // @import "../../node_modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css";
+
+@import "~fullcalendar/dist/fullcalendar.min.css";
+
 @import "variables.scss";
 @import "buttons.scss";
 @import "mixins.scss";
 
 /* Style Guide */
 
+*{
+  margin: 0;
+  padding: 0;
+}
 body {
   background-color: $darkPrimary;
   font-family: AvenirNext-Medium, 'Muli', sans-serif;
