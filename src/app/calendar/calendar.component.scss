@@ -1,3 +1,5 @@
+@import "@ng-select/ng-select/themes/material.theme.css";
+
 .calendar{
     display: flex;
     height: 100vh;
@@ -5,7 +7,7 @@
 
     &__ride{
         height: 100%;
-        width: 250px;
+        width: 50px;
         box-shadow: 3px 2px 10px rgba(0, 0, 0, 0.6);
         background: #251E3C;
     }
@@ -14,7 +16,7 @@
         min-height: 100%;
         overflow-y: auto;
         background: #f4f7f9;
-        width: calc(100% - 250px);
+        width: calc(100% - 50px);
         /deep/ {
             .fc-toolbar.fc-header-toolbar{
                 position: relative;
@@ -163,6 +165,71 @@
                             text-transform: uppercase;
                             position: relative;
                             top: 9px;
+                        }
+                    }
+                }
+            }
+            .fc-now-indicator {
+
+                border-left-color: #6B49CE;
+                &.fc-now-indicator-arrow{
+                    display: none;
+                }
+                &:not(.fc-now-indicator-arrow){
+                    border-top-color: #6B49CE;
+                    width: calc(100% + 15px);
+                    left: -15px;
+                    &:before{
+                        content: attr(data-time);
+                        position: absolute;
+                        top: -1px;
+                        display: inline-block;
+                        left: -26px;
+                        font-size: 0.7em;
+                        color: #6b49ce;
+                        font-weight: 800;
+                        transform: translate(-50%, -50%);
+                    }
+                }
+                // border: 0px solid #6B49CE;
+                // margin-top: -5px;
+                // border-bottom-color: transparent;
+                // border-top-color: transparent;
+                // border-width: 5px 0 5px 6px;
+                // &-line{
+                //     border-top-width: 1px;
+                //     left: 0;
+                //     right: 0;
+                // }
+            }
+            .fc-event{
+                border-radius: 0;
+                border-top-right-radius: 6px;
+                border-bottom-right-radius: 6px;
+                border: none;
+                border-left: 3px solid #2694FF;
+                padding-left: 5px;
+                display: flex;
+                color: #2694FF;
+                align-items: center;
+                background-color: #E9ECFE;
+                box-shadow: 0px 0px 2px #ccc;
+                transition: all 0.2s ease;
+                .fc-content{
+                    display: flex;
+                    flex-direction: row-reverse;
+                    flex-wrap: wrap;
+                    align-items: flex-end;
+                    .fc-title{
+                        font-weight: 800;
+                    }
+                    .fc-time{
+                        font-size: 1em;
+                        &:before{
+                            content: '‐';
+                            display: inline-block;
+                            padding: 0 2px;
+                            font-weight: 800;
                         }
                     }
                 }

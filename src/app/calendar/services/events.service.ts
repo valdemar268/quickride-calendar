@@ -62,4 +62,32 @@ export class EventService {
         }];
         return of(data);
     }
+    public getDrivers(): Observable<any> {
+
+        let data: any = [{
+            id: 0,
+            name: 'Robert A.',
+            color: '#2694FF',
+            job: 'driver'
+        },
+        {
+            id: 1,
+            name: 'Jeremy A.',
+            color: '#F4641A',
+            job: 'driver'
+        },
+        {
+            id: 2,
+            name: 'Brian B.',
+            color: '#58CB7D',
+            job: 'driver'
+        },
+        {
+            id: 3,
+            name: 'Adrian L.',
+            color: '#E10361',
+            job: 'driver'
+        }];
+        return of(data);
+    }
 };

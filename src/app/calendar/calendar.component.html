@@ -5,6 +5,23 @@
   <div class="calendar__ride"></div>
   <div class="calendar__wrapper">
     <!-- <p>Display event : {{displayEvent | json}}</p> -->
+    <div class="calendar__header">
+      <ng-select 
+        [items]="drivers"
+        bindLabel="name"
+        bindValue="id"
+        [multiple]="true"
+        >
+
+        <!-- [(ngModel)]="selectedDrivers" -->
+        <!-- [selectableGroup]="true"
+        [groupBy]="filterAll" -->
+        <ng-template ng-optgroup-tmp let-item="item">
+          <span>{{item.name}}</span>
+          <span>{{item.color}}</span>
+        </ng-template>
+      </ng-select>
+    </div>
     <div *ngIf="calendarOptions">
         <ng-fullcalendar #ucCalendar
           [options]="calendarOptions" 
