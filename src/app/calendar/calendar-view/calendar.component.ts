@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, Renderer2, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2, ElementRef } from '@angular/core';
 
 import { CalendarComponent as calendar} from 'ng-fullcalendar';
 import { Options } from 'fullcalendar';
-import { EventService } from './services/events.service';
+import { EventService } from '../services/events.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -10,11 +10,13 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
-export class CalendarComponent implements OnInit, AfterViewChecked {
+export class CalendarComponent implements OnInit {
 
   calendarOptions: Options;
+  config: Options = {};
   displayEvent: any;
-  period: string = 'day';
+  view: string = 'agendaWeek';
+  date = { };
   selectedDrivers;
   drivers;
 
@@ -24,27 +26,27 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
               private route: ActivatedRoute,
               private renderer: Renderer2, 
               private el: ElementRef
-            ) { }
+            ) {}
 
   ngOnInit() {
-    console.log('data-------ng')
-    console.log( );
-    this.initCalendar();
+    this.subscribeOnRouteParamsChanges()
+  }
 
+  subscribeOnRouteParamsChanges() {
     this.route.params.subscribe( (params) => {
-      this.period = params.period
+      this.view = params.view
       this.initCalendar();
+      if (this.view) {
+        setTimeout( () =>  this.switchView({view: this.view}), 500);
+        setTimeout( () =>  this.setCustomConfig(), 500);
+      }
     });
   }
 
-  ngAfterViewChecked() {
-    setTimeout( () => this.addNowIndicatorTimeLabel(), 0);
-  }
-
   initCalendar() {
+
     this.eventService.getEvents().subscribe( (data) => {
       this.calendarOptions = {
-
         height: 508,
         editable: true,
         eventLimit: false,
@@ -72,7 +74,7 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
             // options apply to basicDay and agendaDay views
           }
         },
-        defaultView: 'agenda' + this.period[0].toUpperCase() + this.period.slice(1),
+        defaultView: this.config.defaultView || 'agendaDay',
         columnFormat: 'ddd D',
         titleFormat: 'MMMM Y',
         events: data,
@@ -85,16 +87,31 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
     })
   }
 
+  setCustomConfig() {
+      this.addNowIndicatorTimeLabel();
+      this.getMonthAndYear();
+  }
+ 
   addNowIndicatorTimeLabel() {
     const calendar = this.ucCalendar['element'].nativeElement;
     const indicator = calendar.getElementsByClassName('fc-now-indicator-line')[0];
-    console.log(indicator)
     const date = new Date().toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
-    indicator.setAttribute('data-time', date);
+    if (indicator) {
+      indicator.setAttribute('data-time', date);
+    }
+  }
+
+  getMonthAndYear() {
+    const calendar = this.ucCalendar['element'].nativeElement;
+    const monthYear = calendar.getElementsByClassName('fc-center')[0];
+    const year = monthYear.textContent.slice(monthYear.textContent.length-4);
+    const month = monthYear.textContent.slice(0, monthYear.textContent.length-5);
+    this.date = {year, month};
   }
 
   clickButton(model: any) {
     this.displayEvent = model;
+    console.log(model);
   }
 
   eventClick(model: any) {
@@ -109,6 +126,7 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
       },
       duration: {}
     }
+    console.log(model);
     this.displayEvent = model;
   }
   updateEvent(model: any) {
@@ -118,7 +136,6 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
         start: model.event.start,
         end: model.event.end,
         title: model.event.title
-        // other params
       },
       duration: {
         _data: model.duration._data
@@ -131,4 +148,20 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
     return data;
   }
 
+  switchView({ view }) {
+    this.view = view;
+    this.ucCalendar.fullCalendar('changeView', view);
+  }
+
+  switchData({ direction }) {
+    this.ucCalendar.fullCalendar(direction);
+  }
+
+  switchDrivers($event) {
+    this.initCalendar();
+  }
+
+  eventAfterRender(event) {
+    this.setCustomConfig();
+  }
 }

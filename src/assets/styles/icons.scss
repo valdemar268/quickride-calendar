@@ -1,0 +1,16 @@
+@import "./variables.scss";
+
+.icon{
+    display: inline-block;
+    height: 15px;
+    width: 15px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    &-arrow-left{
+        background-image:url('/assets/icons/arrow-left.png'); 
+    }
+    &-arrow-right{
+        background-image:url('/assets/icons/arrow-right.png'); 
+    }
+}

@@ -1,0 +1,153 @@
+/deep/ {
+    .fc-toolbar.fc-header-toolbar{
+        position: absolute!important;
+        visibility: hidden;
+    }
+    .fc-head-container{
+        border-top-color: #fff;
+        border-left-color: #fff;
+        border-right-color: #fff;
+        border: none;
+        .fc-widget-header{
+            border-right-width: 0px!important;
+            margin-top: 11px;
+            .fc-axis {
+                padding: 0 20px;
+            }
+            .fc-day-header{
+                border: none;
+                padding: 20px 0px;
+                color: #CFD5DA;
+                text-transform: uppercase;
+                font-weight: 500;
+                font-size: 12px;
+                font-weight: 800;
+                cursor: pointer;
+                &.fc-today{
+                    span{
+                        background: #6B49CE;
+                        border-radius: 11.5px;
+                        padding: 5px 9px;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+    .fc-view-container{
+        border: none;
+        .fc-view{
+            .fc-body{
+                background: #FFFFFF;
+                box-shadow: 0px 4px 40px 2px rgba(142, 142, 142, 0.23);
+            }
+            &.fc-agendaDay-view{
+                .fc-widget-header{
+                    display: none;
+                }
+            }
+        }
+        .fc-widget-content{
+            border: none;
+            margin-right: -1px;
+            .fc-axis {
+                padding: 0 20px;
+            }
+            .fc-divider{
+                display: none;
+            }
+            .fc-day{
+                border: 1px solid #efefef;
+                position: relative;
+                &:after{
+                    content: '';
+                    display: block;
+                    width: 100%;
+                    position: absolute;
+                    bottom: 0;
+                    border-bottom: 1px solid #efefef;
+                }
+            }
+            .fc-today{
+                background: #F9F7FF;
+            }
+        }
+        .fc-time-grid {
+            td, th {
+                border: 1px solid #EFEFEF;
+            }
+            tr:not(.fc-minor){
+                .fc-widget-content{
+                    border-bottom-color: transparent;
+                    position: relative;
+                }
+            }
+            td.fc-time {
+                font-size: 12px;
+                border-color: #fff;
+                border-right-color: #EFEFEF;
+                span{
+                    color: #d8d8d8;
+                    text-transform: uppercase;
+                    position: relative;
+                    top: 9px;
+                }
+            }
+        }
+    }
+    .fc-now-indicator {
+
+        border-left-color: #6B49CE;
+        &.fc-now-indicator-arrow{
+            display: none;
+        }
+        &:not(.fc-now-indicator-arrow){
+            border-top-color: #6B49CE;
+            width: calc(100% + 15px);
+            left: -15px;
+            &:before{
+                content: attr(data-time);
+                position: absolute;
+                top: -1px;
+                display: inline-block;
+                left: -26px;
+                font-size: 0.7em;
+                color: #6b49ce;
+                font-weight: 800;
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
+    .fc-event{
+        border-radius: 0;
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+        border: none;
+        border-left: 3px solid #2694FF;
+        padding-left: 5px;
+        display: flex;
+        color: #2694FF;
+        align-items: center;
+        background-color: #E9ECFE;
+        box-shadow: 0px 0px 2px #ccc;
+        transition: all 0.2s ease;
+        .fc-content{
+            display: flex;
+            flex-direction: row-reverse;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            .fc-title{
+                font-weight: 800;
+            }
+            .fc-time{
+                font-size: 1em;
+                &:before{
+                    content: '‐';
+                    display: inline-block;
+                    padding: 0 2px;
+                    font-weight: 800;
+                }
+            }
+        }
+    }
+}

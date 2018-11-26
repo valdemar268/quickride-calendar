@@ -1,0 +1,47 @@
+<div class="calendar-header">
+
+  <div class="entity-switcher">
+    <button class="btn btn-date"
+      *ngFor="let item of views"
+      (click)="switchView(item.code)"      
+      [ngClass]="{'active': item.code == view}"
+    >{{item.name}}</button>
+  </div>
+
+  <div class="data-switcher">
+    <i class="icon icon-arrow-left"
+      (click)="switchData('prev')"
+    ></i>
+    <div class="current-data">
+        <label class="month">{{ date.month }}</label>
+        <label class="year">{{ date.year }}</label>
+    </div>
+    <i class="icon icon-arrow-right"
+      (click)="switchData('next')"
+    ></i>
+  </div>
+
+  <div class="drivers-switcher">
+    <ng-select 
+      [items]="drivers"
+      bindLabel="name"
+      bindValue="id"
+      [multiple]="true"
+      >
+      <!-- [(ngModel)]="selectedDrivers" -->
+      <!-- [selectableGroup]="true"
+      [groupBy]="filterAll" -->
+      <ng-template ng-optgroup-tmp let-item="item">
+        <span>{{item.name}}</span>
+        <span>{{item.color}}</span>
+      </ng-template>
+    </ng-select>
+  </div>
+
+  <div class="day-view-header" *ngIf="view === DAY_VIEW">
+    <label class="today">
+      Wed 12
+    </label>
+    <button class="btn btn-solid">+ Notes</button>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="calendar">
+  <div class="calendar__ride"></div>
+  <div class="calendar__wrapper">
+    <app-calendar-header
+      [date]="date"
+      [view]="view"
+      (onSwitchView)="switchView($event)"
+      (onSwitchData)="switchData($event)"
+      (onSwitchDrivers)="switchDrivers($event)"
+    ></app-calendar-header>
+    <div *ngIf="calendarOptions">
+      <ng-fullcalendar #ucCalendar
+        [options]="calendarOptions" 
+        (eventClick)="eventClick($event.detail)" 
+        (eventDrop)="updateEvent($event.detail)"
+        (eventResize)="updateEvent($event.detail)" 
+        (clickButton)="clickButton($event)"
+        (viewRender)="eventAfterRender($event)"
+      ></ng-fullcalendar>
+    </div>
+  </div>
+</div>

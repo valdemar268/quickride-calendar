@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CalendarComponent } from './calendar.component';
+import { CalendarComponent } from './calendar-view/calendar.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'week', pathMatch: 'full' },
-  { path: ':period', component: CalendarComponent },
+  { path: '', redirectTo: 'agendaWeek', pathMatch: 'full' },
+  { path: ':view', component: CalendarComponent },
 ];
 
 @NgModule({
