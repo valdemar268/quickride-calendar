@@ -1,4 +1,5 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
+import { EventService } from '../../services/events.service';
 
 @Component({
   selector: 'app-calendar-header',
@@ -18,28 +19,57 @@ export class CalendarHeaderComponent implements OnInit, OnChanges {
     { name: 'Week', code: 'agendaWeek' },
     { name: 'Day', code: 'agendaDay' }
   ];
-
+  drivers;
+  dropdown = false;
   DAY_VIEW = this.views[2].code;
 
-  constructor() { }
+  constructor(private eventService: EventService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.eventService.getDrivers().subscribe( (data) => {
+      console.log(data);
+      this.drivers = data;
+    });
+  }
+
+  ngOnChanges(): void {
     console.log(this.date);
   }
 
-  ngOnChanges() {
-    console.log(this.date);
-  }
-
-  switchView(view = 'day') {
+  switchView(view = 'day'): void {
     this.onSwitchView.emit({ view });
   }
 
-  switchDrivers(drivers = {}) {
+  switchDrivers(drivers = {}): void {
     this.onSwitchDrivers.emit({ drivers });
   }
 
-  switchData(direction = 'next') {
+  switchData(direction = 'next'): void {
     this.onSwitchData.emit({ direction });
+  }
+
+  changeDriversList(event): void {
+    console.log(event);
+  }
+  
+  toggleDropdown(): void {
+    this.dropdown = !this.dropdown;
+  }
+  
+  selectItem(event, i = 0): void {
+    console.log(i);
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    if (i > -1) {
+      this.drivers[i].selected = !this.drivers[i].selected
+    } else {
+      const allSelected = this.getSelectedDrivers().length === this.drivers.length;
+      this.drivers.forEach((driver) => driver.selected = !allSelected);
+    }
+    this.onSwitchDrivers.emit({ drivers: this.getSelectedDrivers()});
+  }
+
+  getSelectedDrivers(): Array<Object> {
+    return this.drivers.filter( (item) => item.selected);
   }
 }

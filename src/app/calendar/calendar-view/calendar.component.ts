@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Renderer2, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2, ElementRef, ChangeDetectorRef } from '@angular/core';
 
 import { CalendarComponent as calendar} from 'ng-fullcalendar';
 import { Options } from 'fullcalendar';
@@ -17,7 +17,8 @@ export class CalendarComponent implements OnInit {
   displayEvent: any;
   view: string = 'agendaWeek';
   date = { };
-  selectedDrivers;
+  selectedEvents;
+  events;
   drivers;
 
   @ViewChild(calendar) ucCalendar: calendar;
@@ -25,17 +26,18 @@ export class CalendarComponent implements OnInit {
   constructor(protected eventService: EventService,
               private route: ActivatedRoute,
               private renderer: Renderer2, 
-              private el: ElementRef
+              private el: ElementRef,
+              private changeDetectionRef: ChangeDetectorRef
             ) {}
 
   ngOnInit() {
     this.subscribeOnRouteParamsChanges()
   }
 
-  subscribeOnRouteParamsChanges() {
+  subscribeOnRouteParamsChanges(): void  {
     this.route.params.subscribe( (params) => {
       this.view = params.view
-      this.initCalendar();
+      this.getEvents();
       if (this.view) {
         setTimeout( () =>  this.switchView({view: this.view}), 500);
         setTimeout( () =>  this.setCustomConfig(), 500);
@@ -43,56 +45,65 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  initCalendar() {
-
-    this.eventService.getEvents().subscribe( (data) => {
-      this.calendarOptions = {
-        height: 508,
-        editable: true,
-        eventLimit: false,
-        nowIndicator: true,
-        header: {
-          right: '',
-          center: 'prev,next title',
-          left: 'month,agendaWeek,agendaDay,listMonth'
-        },
-        views: {
-          basic: {
-            // options apply to basicWeek and basicDay views
-          },
-          agenda: {
-            // options apply to agendaWeek and agendaDay views
-          },
-          week: {
-            displayEventTime: false,
-            displayEventEnd: false
-            // options apply to basicWeek and agendaWeek views
-          },
-          day: {
-            timeFormat: 'h:mm A',
-            displayEventEnd: false
-            // options apply to basicDay and agendaDay views
-          }
-        },
-        defaultView: this.config.defaultView || 'agendaDay',
-        columnFormat: 'ddd D',
-        titleFormat: 'MMMM Y',
-        events: data,
-      };
-    });
-
+  getEvents(): void  {
     this.eventService.getDrivers().subscribe( (data) => {
-      console.log(data);
       this.drivers = data;
+      this.eventService.getEvents().subscribe( (data) => {
+        this.events = data;
+        this.filterEventsByDrivers(this.drivers);
+        this.initCalendar();
+      });
     })
   }
 
-  setCustomConfig() {
+  filterEventsByDrivers(drivers): void {
+    this.selectedEvents = this.events.filter( (event) => {
+      return drivers.some((driver) => event.driverId === driver.id);
+    });
+  }
+
+  initCalendar(): void  {
+    this.calendarOptions = {
+      editable: true,
+      eventLimit: false,
+      nowIndicator: true,
+      height: 620,
+      header: {
+        right: '',
+        center: 'prev,next title',
+        left: 'month,agendaWeek,agendaDay,listMonth'
+      },
+      views: {
+        basic: {
+          // options apply to basicWeek and basicDay views
+        },
+        agenda: {
+          // options apply to agendaWeek and agendaDay views
+        },
+        week: {
+          displayEventTime: false,
+          displayEventEnd: false
+          // options apply to basicWeek and agendaWeek views
+        },
+        day: {
+          timeFormat: 'h:mm A',
+          displayEventEnd: false
+          // options apply to basicDay and agendaDay views
+        }
+      },
+      defaultView: this.config.defaultView || 'agendaDay',
+      columnFormat: 'ddd D',
+      titleFormat: 'MMMM Y',
+      events: this.selectedEvents,
+    };
+  }
+
+  setCustomConfig(): void  {
       this.addNowIndicatorTimeLabel();
       this.getMonthAndYear();
   }
  
-  addNowIndicatorTimeLabel() {
+  addNowIndicatorTimeLabel(): void  {
     const calendar = this.ucCalendar['element'].nativeElement;
     const indicator = calendar.getElementsByClassName('fc-now-indicator-line')[0];
     const date = new Date().toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
@@ -101,7 +112,7 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  getMonthAndYear() {
+  getMonthAndYear(): void {
     const calendar = this.ucCalendar['element'].nativeElement;
     const monthYear = calendar.getElementsByClassName('fc-center')[0];
     const year = monthYear.textContent.slice(monthYear.textContent.length-4);
@@ -109,59 +120,23 @@ export class CalendarComponent implements OnInit {
     this.date = {year, month};
   }
 
-  clickButton(model: any) {
-    this.displayEvent = model;
-    console.log(model);
-  }
-
-  eventClick(model: any) {
-    model = {
-      event: {
-        id: model.event.id,
-        start: model.event.start,
-        end: model.event.end,
-        title: model.event.title,
-        allDay: model.event.allDay
-        // other params
-      },
-      duration: {}
-    }
-    console.log(model);
-    this.displayEvent = model;
-  }
-  updateEvent(model: any) {
-    model = {
-      event: {
-        id: model.event.id,
-        start: model.event.start,
-        end: model.event.end,
-        title: model.event.title
-      },
-      duration: {
-        _data: model.duration._data
-      }
-    }
-    this.displayEvent = model;
-  }
-
-  filterAll(data) {
-    return data;
-  }
-
-  switchView({ view }) {
+  switchView({ view }): void  {
     this.view = view;
     this.ucCalendar.fullCalendar('changeView', view);
   }
 
-  switchData({ direction }) {
+  switchData({ direction }): void  {
     this.ucCalendar.fullCalendar(direction);
   }
 
-  switchDrivers($event) {
-    this.initCalendar();
+  switchDrivers({ drivers }): void  {
+    this.filterEventsByDrivers(drivers);
+    console.log(this.selectedEvents);
+    this.ucCalendar.fullCalendar({events: this.selectedEvents});
+    // this.initCalendar();
   }
 
-  eventAfterRender(event) {
+  eventAfterRender(event): void {
     this.setCustomConfig();
   }
 }

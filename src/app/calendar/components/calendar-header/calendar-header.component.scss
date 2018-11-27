@@ -1,4 +1,3 @@
-@import "@ng-select/ng-select/themes/material.theme.css";
 @import "src/assets/styles/variables.scss";
 
 .calendar-header{
@@ -61,7 +60,7 @@
         width: 100%;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-end;
         margin: 25px 0 15px;
         label.today{
             font-size: 1.2em;
@@ -75,6 +74,74 @@
             font-weight: 800;
             padding: 6px 10px;
             font-size: 1em;
+        }
+    }
+    .drivers-switcher{
+        .dropdown{
+            position: relative;
+            font-size: 1.2em;
+            font-weight: 700;
+            &:hover{
+                ul{
+                    visibility: visible;
+                }
+            }
+            .placeholder{
+                border: 1px solid #979797;
+                background: #fff;
+                padding: 9px 14px;
+                display: flex;
+                align-items: center; 
+                min-width: 120px;
+                justify-content: space-between;
+            }
+            ul{
+                visibility: hidden;
+                top: 100%;
+                right: 0;
+                z-index: 2;
+                position: absolute;
+                background: #FFFFFF;
+                border: 1px solid #B7C0CA;
+                box-sizing: border-box;
+                box-shadow: 0px 2px 14px rgba(0, 0, 0, 0.2);
+                list-style-type: none;
+                transition: opacity 0.2s ease;
+                li{
+                    display: flex;
+                    align-items: center;
+                    padding: 10px 5px;
+                    transition: background-color 0.2s ease;
+                    .name{
+                        width: 130px;
+                    }
+                    &:not(:last-child){
+                        border-bottom: 0.5px solid #D0D0D0;
+                    }
+                    &:hover{
+                        background: #f0f0f0;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .circle{
+                display: inline-block;
+                width: 22px;
+                height: 22px;
+                border-radius: 50%;
+                margin: 0px 15px;
+                transition: background-color 0.2s ease;
+                &-checkbox{
+                    border: 1px solid #9E9E9E;
+                    &.selected{
+                        background-color: rgb(56, 56, 56);
+                    }
+                }
+                &-gray{
+                    background-color: #CCCCCC;
+                }
+            }
         }
     }
 }

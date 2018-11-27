@@ -2,6 +2,7 @@
     .fc-toolbar.fc-header-toolbar{
         position: absolute!important;
         visibility: hidden;
+        width: 0px!important;
     }
     .fc-head-container{
         border-top-color: #fff;
@@ -43,7 +44,31 @@
             }
             &.fc-agendaDay-view{
                 .fc-widget-header{
-                    display: none;
+                    // display: none;
+                    margin-top: -52px;
+                    .fc-axis{
+                        display: none;
+                    }
+                    .fc-day-header {
+                        text-align: left;
+                        color: #6B49CE!important;
+                    }
+                }
+            }
+            &.fc-month-view{
+                .fc-today{
+                    .fc-day-number{
+                        background: #6B49CE;
+                        color: #fff;
+                    }
+                }
+                .fc-day-number{
+                    border-radius: 50%;
+                    color: #8A888A;
+                    font-weight: 700;
+                    padding: 3px 4px;
+                    margin: 7px;                
+                    font-size: 0.9em;
                 }
             }
         }

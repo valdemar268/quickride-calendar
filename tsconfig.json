@@ -3,7 +3,6 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@ng-select/*": ["node_modules/@ng-select/*"]
     },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,

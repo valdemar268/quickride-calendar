@@ -22,26 +22,34 @@
   </div>
 
   <div class="drivers-switcher">
-    <ng-select 
-      [items]="drivers"
-      bindLabel="name"
-      bindValue="id"
-      [multiple]="true"
-      >
-      <!-- [(ngModel)]="selectedDrivers" -->
-      <!-- [selectableGroup]="true"
-      [groupBy]="filterAll" -->
-      <ng-template ng-optgroup-tmp let-item="item">
-        <span>{{item.name}}</span>
-        <span>{{item.color}}</span>
-      </ng-template>
-    </ng-select>
+    <div class="dropdown">
+      <label class="placeholder">
+        All drivers
+        <i class="icon icon-next"></i>
+      </label>
+      <ul>
+        <li
+          (click)="selectItem($event, -1)">
+          <span class="circle circle-gray"></span>
+          <span class="name">All drivers</span>
+          <span class="circle circle-checkbox"
+            [ngClass]="{'selected': getSelectedDrivers().length === drivers.length}"
+          ></span>
+        </li>
+        <li *ngFor="let item of drivers; let i = index"
+            (click)="selectItem($event, i)">
+          <span class="circle circle-color"
+                [style.background-color]="item.color"></span>
+          <span class="name">{{item.name}}</span>
+          <span class="circle circle-checkbox"
+                [ngClass]="{'selected': item.selected}"
+          ></span>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <div class="day-view-header" *ngIf="view === DAY_VIEW">
-    <label class="today">
-      Wed 12
-    </label>
     <button class="btn btn-solid">+ Notes</button>
   </div>
 </div>
